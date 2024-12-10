@@ -10,7 +10,7 @@ namespace VideoGameApi.Controllers
     public class VideoGameController : ControllerBase
     {
         private readonly VideoGameDbContext _context;
-
+         
         public VideoGameController(VideoGameDbContext context)
         {
             _context = context;
