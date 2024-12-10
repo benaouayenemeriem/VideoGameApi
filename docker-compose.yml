@@ -1,0 +1,39 @@
+services:
+  videogameapi:
+    image: videogameapi
+    build:
+      context: .
+      dockerfile: VideoGameApi/Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+    environment:
+      ConnectionStrings__DefaultConnection: "Server=mysql;Database=mydatabase;User=user;Password=password;"
+
+  mysql:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: mydatabase
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: root
+      PMA_PASSWORD: example
+      PMA_ABSOLUTE_URI: http://localhost:8081/
+
+volumes:
+  mysql_data:
